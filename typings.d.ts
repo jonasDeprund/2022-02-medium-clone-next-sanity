@@ -1,6 +1,6 @@
 export interface Post {
   _id: string
-  _createAd: string
+  _createAt: string
   title: string
   author: {
     name: string
