@@ -1,8 +1,15 @@
 import { GetStaticProps } from 'next'
 import Header from '../../components/Header'
-import { sanityClient, urlFor } from '../sanity'
+import { sanityClient, urlFor } from '../../sanity'
+import { Post } from '../../typings'
 
-const Post = () => {
+interface Props {
+  post: Post
+}
+
+function Post({ post }: Props) {
+  console.log(post)
+
   return (
     <main>
       <Header />
@@ -19,18 +26,18 @@ export const getStaticPaths = async () => {
           current
         }
       }`
-  const posts = await sanityClient.post.fetch(query)
+  const posts = await sanityClient.fetch(query)
 
   const paths = posts.map((post: Post) => ({
-    params: {slug.post.current},
+    params: { slug: post.slug.current },
   }))
   return {
-      paths,
-      fallback: 'blocking',
+    paths,
+    fallback: 'blocking',
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({params}) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const query = `*[_type == "post" && slug.current == $slug][0]{
     _id,
     _createAt,
@@ -49,8 +56,19 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       body
   }`
 
-const post = await sanityClient.fetch(query, {
-  slug: params?.slug,
-})
+  const post = await sanityClient.fetch(query, {
+    slug: params?.slug,
+  })
 
+  if (!post) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: {
+      post,
+    },
+  }
 }
