@@ -8,11 +8,28 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-  console.log(post)
-
   return (
     <main>
       <Header />
+      <img
+        className="h-40 w-full object-cover"
+        src={urlFor(post.mainImage).url()!}
+        alt=""
+      />
+      <article className="mx-auto max-w-3xl p-5">
+        <h1 className="mt-10 mb-3 text-3xl">{post.title}</h1>
+        <h2 className="mb-2 text-xl font-light text-gray-500">
+          {post.description}
+        </h2>
+        <div>
+          <img
+            className="h-10 w-10 rounded-full object-cover"
+            src={urlFor(post.author.image).url()!}
+            alt=""
+          />
+          <p></p>
+        </div>
+      </article>
     </main>
   )
 }
