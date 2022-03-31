@@ -1,6 +1,5 @@
 import createImageUrlBuilder from '@sanity/image-url'
-import sanityClient from '@sanity/client'
-
+// import { sanityClient } from '../../sanity'
 import { createCurrentUserHook, createClient } from 'next-sanity'
 
 export const config = {
