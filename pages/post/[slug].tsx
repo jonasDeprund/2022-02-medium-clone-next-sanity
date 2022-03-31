@@ -23,6 +23,19 @@ function Post({ post }: Props) {
     formState: { errors },
   } = useForm<IFormInput>()
 
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    await fetch('/api/createComment', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+      .then(() => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <main>
       <Header />
@@ -61,7 +74,10 @@ function Post({ post }: Props) {
 
       <input {...register('_id')} type="hidden" name="_id" value={post._id} />
 
-      <form className="mx-auto mb-10 flex max-w-2xl flex-col p-5 ">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto mb-10 flex max-w-2xl flex-col p-5 "
+      >
         <label className="mb-5 block">
           <span className="text-gray-700">Name</span>
           <input
@@ -78,7 +94,7 @@ function Post({ post }: Props) {
             {...register('email', { required: true })}
             className="form-input mt-1 block w-full rounded border py-2 px-3 shadow outline-none focus:ring"
             placeholder="John Doe"
-            type="text"
+            type="email"
           />
         </label>
 
