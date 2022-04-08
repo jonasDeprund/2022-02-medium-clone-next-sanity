@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { SanityClient } from '@sanity/client'
+import { sanityClient } from '../../sanity'
 
 const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
